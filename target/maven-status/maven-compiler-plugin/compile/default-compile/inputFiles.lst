@@ -1,0 +1,8 @@
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/Main.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/dao/UserDao.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/dao/UserDaoJDBCImpl.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/model/User.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/service/UserService.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java
+/Users/romiro/IdeaProjects/Task-1/src/main/java/jm/task/core/jdbc/util/Util.java

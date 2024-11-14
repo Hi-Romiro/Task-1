@@ -1,0 +1,52 @@
+Index: src/test/java/UserServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import jm.task.core.jdbc.model.User;\nimport jm.task.core.jdbc.service.UserService;\nimport jm.task.core.jdbc.service.UserServiceImpl;\nimport org.junit.Assert;\nimport org.junit.Test;\n\nimport java.util.List;\n\npublic class UserServiceTest {\n    private final UserService userService = new UserServiceImpl();\n\n    private final String testName = \"Ivan\";\n    private final String testLastName = \"Ivanov\";\n    private final byte testAge = 5;\n\n\n    @Test\n    public void dropUsersTable() {\n        try {\n            userService.dropUsersTable();\n            userService.dropUsersTable();\n        } catch (Exception e) {\n            Assert.fail(\"При тестировании удаления таблицы произошло исключение\\n\" + e);\n        }\n    }\n\n    @Test\n    public void createUsersTable() {\n        try {\n            userService.dropUsersTable();\n            userService.createUsersTable();\n        } catch (Exception e) {\n            Assert.fail(\"При тестировании создания таблицы пользователей произошло исключение\\n\" + e.getMessage());\n        }\n    }\n\n    @Test\n    public void saveUser() {\n        try {\n            userService.dropUsersTable();\n            userService.createUsersTable();\n            userService.saveUser(testName, testLastName, testAge);\n\n            User user = userService.getAllUsers().get(0);\n\n            if (!testName.equals(user.getName())\n                    || !testLastName.equals(user.getLastName())\n                    || testAge != user.getAge()\n            ) {\n                Assert.fail(\"User был некорректно добавлен в базу данных\");\n            }\n\n        } catch (Exception e) {\n            Assert.fail(\"Во время тестирования сохранения пользователя произошло исключение\\n\" + e);\n        }\n    }\n\n    @Test\n    public void removeUserById() {\n        try {\n            userService.dropUsersTable();\n            userService.createUsersTable();\n            userService.saveUser(testName, testLastName, testAge);\n            userService.removeUserById(1L);\n        } catch (Exception e) {\n            Assert.fail(\"При тестировании удаления пользователя по id произошло исключение\\n\" + e);\n        }\n    }\n\n    @Test\n    public void getAllUsers() {\n        try {\n            userService.dropUsersTable();\n            userService.createUsersTable();\n            userService.saveUser(testName, testLastName, testAge);\n            List<User> userList = userService.getAllUsers();\n\n            if (userList.size() != 1) {\n                Assert.fail(\"Проверьте корректность работы метода сохранения пользователя/удаления или создания таблицы\");\n            }\n        } catch (Exception e) {\n            Assert.fail(\"При попытке достать всех пользователей из базы данных произошло исключение\\n\" + e);\n        }\n    }\n\n    @Test\n    public void cleanUsersTable() {\n        try {\n            userService.dropUsersTable();\n            userService.createUsersTable();\n            userService.saveUser(testName, testLastName, testAge);\n            userService.cleanUsersTable();\n\n            if (userService.getAllUsers().size() != 0) {\n                Assert.fail(\"Метод очищения таблицы пользователей реализован не корректно\");\n            }\n        } catch (Exception e) {\n            Assert.fail(\"При тестировании очистки таблицы пользователей произошло исключение\\n\" + e);\n        }\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UserServiceTest.java b/src/test/java/UserServiceTest.java
+--- a/src/test/java/UserServiceTest.java	(revision 5fe03daf070eed87366d21d7ab4e45819e2da0b7)
++++ b/src/test/java/UserServiceTest.java	(date 1731608522666)
+@@ -82,6 +82,7 @@
+             Assert.fail("При попытке достать всех пользователей из базы данных произошло исключение\n" + e);
+         }
+     }
++    
+ 
+     @Test
+     public void cleanUsersTable() {
+Index: .idea/hibernate.cfg.xml
+===================================================================
+diff --git a/.idea/hibernate.cfg.xml b/.idea/hibernate.cfg.xml
+new file mode 100644
+--- /dev/null	(date 1731608952291)
++++ b/.idea/hibernate.cfg.xml	(date 1731608952291)
+@@ -0,0 +1,26 @@
++<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
++<hibernate-configuration>
++    <session-factory>
++        <!-- JDBC Database connection settings -->
++        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
++        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5433/postgres</property>
++        <property name="hibernate.connection.username">postgres</property>
++        <property name="hibernate.connection.password">postgres</property>
++
++        <!-- JDBC connection pool settings -->
++        <property name="hibernate.c3p0.min_size">5</property>
++        <property name="hibernate.c3p0.max_size">20</property>
++
++        <!-- SQL dialect -->
++        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
++
++        <!-- Echo all executed SQL to stdout -->
++        <property name="hibernate.show_sql">true</property>
++
++        <!-- Drop and re-create the database schema on startup (useful for testing) -->
++        <property name="hibernate.hbm2ddl.auto">update</property>
++
++        <!-- Annotated class -->
++        <mapping class="jm.task.core.jdbc.model.User"/>
++    </session-factory>
++</hibernate-configuration>
+\ No newline at end of file

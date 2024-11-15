@@ -31,6 +31,13 @@
          </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.28</version> <!-- Проверьте актуальную версию на сайте Lombok -->
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.6.2</version> <!-- Используйте актуальную версию -->
